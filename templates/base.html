@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Stockroom{% endblock %} · Inventory Manager</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"></head>
+<body>
+{% if g.user %}
+<aside class="sidebar"><a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">▦</span> Stockroom<span class="brand-dot">.</span></a><div class="nav-caption">WORKSPACE</div><nav>
+{% for endpoint,label,icon in [('dashboard','Overview','◫'),('products','Products','▦'),('stock','Stock movement','⇄'),('movements','Activity log','≡')] %}<a class="{{ 'active' if request.endpoint==endpoint }}" href="{{ url_for(endpoint) }}"><span>{{ icon }}</span>{{ label }}</a>{% endfor %}
+{% if g.user.role=='admin' %}<a class="{{ 'active' if request.endpoint=='users' }}" href="{{ url_for('users') }}"><span>♙</span>Team members</a>{% endif %}</nav><div class="sidebar-bottom"><div class="avatar">{{ g.user.username[0]|upper }}</div><div><strong>{{ g.user.username }}</strong><small>{{ g.user.role|title }}</small></div><form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ session.csrf }}"><button class="logout" title="Sign out">↗</button></form></div></aside>
+{% endif %}
+<main class="{{ 'workspace' if g.user else 'login-shell' }}">
+{% if g.user %}<div class="topbar"><span>Workspace <span class="muted">/ Inventory management</span></span><span class="status-dot">● <span>Local workspace</span></span></div>{% endif %}
+<div class="content">{% for category,message in get_flashed_messages(with_categories=true) %}<div role="alert" class="flash {{ category }}">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</div>
+</main><script src="{{ url_for('static',filename='app.js') }}" defer></script></body></html>

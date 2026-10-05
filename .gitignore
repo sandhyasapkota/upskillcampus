@@ -1,0 +1,26 @@
+# Python environments and bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local configuration and application data
+.env
+.env.*
+!.env.example
+instance/
+
+# Test, coverage, and tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# OS and browser-generated files
+.DS_Store
+Thumbs.db
+.chrome-capture/
+.edge-capture/
